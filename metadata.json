@@ -1,0 +1,6 @@
+{
+  "name": "Aura",
+  "description": "A refined, sleek dating experience focused on clarity and genuine resonance.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["authentication", "database", "location"]
+}

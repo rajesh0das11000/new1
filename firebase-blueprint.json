@@ -1,0 +1,78 @@
+{
+  "entities": {
+    "Profile": {
+      "title": "User Profile",
+      "description": "Public profile information for a user.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The Firebase Auth UID of the user." },
+        "displayName": { "type": "string", "description": "User's display name." },
+        "photoUrl": { "type": "string", "description": "Primary profile photo URL." },
+        "bio": { "type": "string", "description": "A short bio provided by the user." },
+        "aura": { "type": "string", "description": "AI-generated vibey description of the user." },
+        "interests": { "type": "array", "items": { "type": "string" }, "description": "List of interests/hobbies." },
+        "gender": { "type": "string", "enum": ["male", "female", "non-binary", "other"] },
+        "lookingFor": { "type": "array", "items": { "type": "string" }, "description": "Preferred genders." },
+        "birthDate": { "type": "string", "format": "date-time" },
+        "location": { "type": "object", "description": "Geographical location (lat/lng)." },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "gender", "createdAt", "updatedAt"]
+    },
+    "Match": {
+      "title": "Match",
+      "description": "Represents a potential or confirmed connection between two users.",
+      "type": "object",
+      "properties": {
+        "userIds": { "type": "array", "items": { "type": "string" }, "description": "Array of 2 UIDs." },
+        "status": { "type": "string", "enum": ["pending", "matched", "blocked"] },
+        "lastMessage": { "type": "string" },
+        "lastMessageAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userIds", "status", "createdAt", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A chat message between two matched users.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "text", "createdAt"]
+    },
+    "Like": {
+      "title": "Like",
+      "description": "A like from one user to another.",
+      "type": "object",
+      "properties": {
+        "fromId": { "type": "string" },
+        "toId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromId", "toId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": "Profile",
+      "description": "User profiles indexed by UID."
+    },
+    "/matches/{matchId}": {
+      "schema": "Match",
+      "description": "Connection between users."
+    },
+    "/matches/{matchId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages in a match."
+    },
+    "/likes/{likeId}": {
+      "schema": "Like",
+      "description": "Likes tracking to create matches."
+    }
+  }
+}
